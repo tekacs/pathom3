@@ -1104,26 +1104,26 @@
             sub        (if dynamic? (compute-dynamic-nested-requirements env))
             requires   {attribute (or sub {})}]
         (cond-> (new-node env
-                  {::pco/op-name op-name'
-                   ::expects     requires
-                   ::input       input})
+                          {::pco/op-name op-name'
+                           ::expects     requires
+                           ::input       input})
 
           (seq ast-params)
           (assoc ::params ast-params)
 
           dynamic?
           (assoc
-           ::source-op-name
-           op-name
+            ::source-op-name
+            op-name
 
-           ::foreign-ast
-           {:type     :root
-            :children (if sub
-                        (let [ast' (pfsd/shape-descriptor->ast sub)]
-                          [(assoc ast
-                             :children (:children ast')
-                             :query (pfsd/shape-descriptor->query sub))])
-                        [ast])}))))))
+            ::foreign-ast
+            {:type     :root
+             :children (if sub
+                         (let [ast' (pfsd/shape-descriptor->ast sub)]
+                           [(assoc ast
+                              :children (:children ast')
+                              :query (pfsd/shape-descriptor->query sub))])
+                         [ast])}))))))
 
 (defn compute-resolver-leaf
   "For a set of resolvers (the R part of OIR index), create one OR node that branches

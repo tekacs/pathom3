@@ -354,11 +354,11 @@
             ::pcp/index-attrs           {:container #{1}}
             ::pcp/root                  1}
            (compute-run-graph
-            {::eql/query [{:container [:item-1]}]
-             ::resolvers '[{::pco/op-name nested-1-resolver
-                            ::pco/output  [{:container [:item-1]}]}
-                           {::pco/op-name nested-2-resolver
-                            ::pco/output  [{:container [:item-2]}]}]}))))
+             {::eql/query [{:container [:item-1]}]
+              ::resolvers '[{::pco/op-name nested-1-resolver
+                             ::pco/output  [{:container [:item-1]}]}
+                            {::pco/op-name nested-2-resolver
+                             ::pco/output  [{:container [:item-2]}]}]}))))
   (testing "Nodes with nested provides that are not known to be statically unreachable are still created"
     (testing "when the query does not disambiguate"
       (is (= {::pcp/nodes                 {2 {::pco/op-name      'nested-1-resolver
@@ -379,39 +379,39 @@
               ::pcp/index-attrs           {:container #{1 2}}
               ::pcp/root                  3}
              (compute-run-graph
-              {::eql/query [:container]
-               ::resolvers '[{::pco/op-name nested-1-resolver
-                              ::pco/output  [{:container [:item-1]}]}
-                             {::pco/op-name nested-2-resolver
-                              ::pco/output  [{:container [:item-2]}]}]})))
+               {::eql/query [:container]
+                ::resolvers '[{::pco/op-name nested-1-resolver
+                               ::pco/output  [{:container [:item-1]}]}
+                              {::pco/op-name nested-2-resolver
+                               ::pco/output  [{:container [:item-2]}]}]})))
       (testing "when the resolver outputs do not disambiguate"
         (is (= {::pcp/nodes                 {2 {::pco/op-name      'nested-1-resolver
-                                              ::pcp/expects      {:container {}}
-                                              ::pcp/input        {}
-                                              ::pcp/node-id      2
-                                              ::pcp/node-parents #{3}}
-                                           1 {::pco/op-name      'nested-2-resolver
-                                              ::pcp/expects      {:container {}}
-                                              ::pcp/input        {}
-                                              ::pcp/node-id      1
-                                              ::pcp/node-parents #{3}}
-                                           3 {::pcp/expects {:container {}}
-                                              ::pcp/node-id 3
-                                              ::pcp/run-or  #{1 2}}}
+                                                ::pcp/expects      {:container {}}
+                                                ::pcp/input        {}
+                                                ::pcp/node-id      2
+                                                ::pcp/node-parents #{3}}
+                                             1 {::pco/op-name      'nested-2-resolver
+                                                ::pcp/expects      {:container {}}
+                                                ::pcp/input        {}
+                                                ::pcp/node-id      1
+                                                ::pcp/node-parents #{3}}
+                                             3 {::pcp/expects {:container {}}
+                                                ::pcp/node-id 3
+                                                ::pcp/run-or  #{1 2}}}
                 ::pcp/index-ast             {:container {:type :join
                                                          :dispatch-key :container
                                                          :key :container
                                                          :query [:item-1]
                                                          :children [{:type :prop :dispatch-key :item-1 :key :item-1}]}}
-              ::pcp/index-resolver->nodes {'nested-1-resolver #{2} 'nested-2-resolver #{1}}
-              ::pcp/index-attrs           {:container #{1 2}}
-              ::pcp/root                  3}
-             (compute-run-graph
-              {::eql/query [{:container [:item-1]}]
-               ::resolvers '[{::pco/op-name nested-1-resolver
-                              ::pco/output  [:container]}
-                             {::pco/op-name nested-2-resolver
-                              ::pco/output  [:container]}]}))))))
+                ::pcp/index-resolver->nodes {'nested-1-resolver #{2} 'nested-2-resolver #{1}}
+                ::pcp/index-attrs           {:container #{1 2}}
+                ::pcp/root                  3}
+               (compute-run-graph
+                 {::eql/query [{:container [:item-1]}]
+                  ::resolvers '[{::pco/op-name nested-1-resolver
+                                 ::pco/output  [:container]}
+                                {::pco/op-name nested-2-resolver
+                                 ::pco/output  [:container]}]}))))))
   (testing "Derived nodes are still created correctly"
     (testing "at root"
       (is (= {::pcp/index-ast             {:derived {:dispatch-key :derived
@@ -439,12 +439,12 @@
                                               ::pco/op-name  'users}}
               ::pcp/root                  2}
              (compute-run-graph
-              {::eql/query [:derived]
-               ::resolvers '[{::pco/op-name users
-                              ::pco/output  [{:users [:id]}]}
-                             {::pco/op-name derived
-                              ::pco/input   [{:users [:id]}]
-                              ::pco/output  [:derived]}]}))))
+               {::eql/query [:derived]
+                ::resolvers '[{::pco/op-name users
+                               ::pco/output  [{:users [:id]}]}
+                              {::pco/op-name derived
+                               ::pco/input   [{:users [:id]}]
+                               ::pco/output  [:derived]}]}))))
 
     (testing "when nested"
       (is (= {::pcp/index-ast             {:container {:children     [{:dispatch-key :derived
@@ -462,12 +462,12 @@
                                               ::pco/op-name 'users}}
               ::pcp/root                  2}
              (compute-run-graph
-              {::eql/query [{:container [:derived]}]
-               ::resolvers '[{::pco/op-name users
-                              ::pco/output  [{:container [{:users [:id]}]}]}
-                             {::pco/op-name derived
-                              ::pco/input   [{:users [:id]}]
-                              ::pco/output  [:derived]}]}))))))
+               {::eql/query [{:container [:derived]}]
+                ::resolvers '[{::pco/op-name users
+                               ::pco/output  [{:container [{:users [:id]}]}]}
+                              {::pco/op-name derived
+                               ::pco/input   [{:users [:id]}]
+                               ::pco/output  [:derived]}]}))))))
 
 (deftest compute-run-graph-no-path-tolerant-mode-test
   (testing "no path"
