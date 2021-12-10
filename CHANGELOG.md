@@ -2,6 +2,7 @@
 
 ## [Next]
 - Add `pbip/dev-linter` to help find errors in operation definitions
+- Add `pcr/estimate-cost-sort` to pick path based on estimate cost
 
 ## [2021.11.16-alpha]
 - Add extension point `::p.error/wrap-attribute-error`

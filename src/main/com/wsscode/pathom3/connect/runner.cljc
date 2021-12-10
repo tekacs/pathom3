@@ -548,6 +548,12 @@
     (->> paths
          (sort-by second #(coll/vector-compare %2 %)))))
 
+(defn estimate-cost-sort
+  "WIP: currently just picking the resolver over a branch."
+  [{::pcp/keys [graph]} node-ids]
+  (let [nodes (mapv #(pcp/get-node graph %) node-ids)]
+    (mapv ::pcp/node-id (sort-by pcp/branch-node? nodes))))
+
 (defn default-choose-path [env _or-node node-ids]
   (-> (priority-sort env node-ids)
       ffirst))
